@@ -168,6 +168,7 @@ MACRO(PMULUDQ      , Reg2   , None         , RNON , f(MODRM)   , o(PMULUDQ)   , 
 MACRO(POP          , Reg1   , OpSideEffect , R000 , f(PSHPOP)  , o(POP)       , DDST                        , OLB_NONE , LEGAL_R_OR     )
 MACRO(POPCNT       , Reg2   , None         , RNON , f(MODRM)   , o(POPCNT)    , DF3|DSETCC|DDST             , OLB_0F   , LEGAL_R_RM     )
 MACRO(POR          , Reg2   , None         , RNON , f(MODRM)   , o(POR)       , DNO16|DOPEQ|D66|DCOMMOP     , OLB_0F   , LEGAL_R_R_RM   )
+MACRO(PSHUFB       , Reg3   , None         , RNON , f(MODRM)   , o(PSHUFB)    , DDST|DNO16|D66|DSSE         , OLB_0F   , LEGAL_R_RM_I   )
 MACRO(PSHUFD       , Reg3   , None         , RNON , f(MODRM)   , o(PSHUFD)    , DDST|DNO16|D66|DSSE         , OLB_0F   , LEGAL_R_RM_I   )
 MACRO(PSLLD        , Reg2   , None         , R110 , f(SPECIAL) , o(PSLLD)     , DNO16|DOPEQ|D66|DSSE        , OLB_0F   , LEGAL_R_R_RI   )
 MACRO(PSLLDQ       , Reg2   , None         , R111 , f(SPECIAL) , o(PSLLDQ)    , DDST|DNO16|DOPEQ|D66|DSSE   , OLB_0F   , LEGAL_R_R_RI   )

@@ -294,6 +294,7 @@ enum Forms : BYTE
 
 #define OPBYTE_POR      {0xeb}                  // modrm
 #define OPBYTE_POPCNT   {0xB8}                  // modrm
+#define OPBYTE_PSHUFB   {0x38, 0x00}            // special
 #define OPBYTE_PSHUFD   {0x70}                  // special
 #define OPBYTE_PEXTRW   {0xc5}                  // special
 #define OPBYTE_PEXTRD   {0x16}                  // special

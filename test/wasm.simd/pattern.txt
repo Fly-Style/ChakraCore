@@ -1,0 +1,61 @@
+L22:                                                        ; $L22: [helper]
+    MOV           rsi, 0x000055FA0CDEC108                   ;     (rsi).i64       =  MOV            0xXXXXXXXX (ScriptContext).u64
+    MOV           rdi, 7200                                 ;     (rdi).i64       =  MOV            7200 (0x1C20).i64
+    MOV           rax, ProbeCurrentStack                    ;     (rax).i64       =  MOV            ProbeCurrentStack.u64
+    JMP           rax                                       ;                        JMP            (rax).i64
+                                                            ;                        StatementBoundary  #-1
+                                                            ;                        FunctionEntry
+                                                            ;                        PrologStart
+    PUSH          rbp                                       ;                        PUSH           (rbp).i64
+    MOV           rbp, rsp                                  ;     (rbp).i64       =  MOV            (rsp).i64
+    SUB           rsp, 64                                   ;     (rsp).i64       =  SUB            (rsp).i64, 64 (0x40).i64
+                                                            ;                        PrologEnd
+    MOV           rax, 0x000055FA0CDBA048                   ;     s80(rax).u64    =  MOV            0xXXXXXXXX (Unknown).u64
+    MOV           rcx, SYM(s98<16>.u64)                     ;     s97(rcx).u64    =  MOV            s98<16>.u64
+    MOV           rcx, [rcx + (72)]                         ;     s1(rcx).var     =  MOV            [s97(rcx).u64+72].u64
+    MOV           rcx, [rcx + (0)]                          ;     s3(rcx).var     =  MOV            [s1(rcx).var!].var
+    MOV           rcx, [rcx + (32)]                         ;     s2(rcx).var     =  MOV            [s3(rcx).var!+32].var
+    MOV           rdx, [rcx + (56)]                         ;     s7(rdx).var     =  MOV            [s2(rcx).var+56].var
+    MOV           rdx, [rdx + (0)]                          ;     s4(rdx).var     =  MOV            [s7(rdx).var!].var
+    MOVUPS        xmm0, [rdx + (0)]                         ;     s16(xmm0)[Primitive].simd128 = MOVUPS  [s4(rdx)[Float32Array].var].simd128
+    MOVUPS        xmm1, [rdx + (16)]                        ;     s30(xmm1)[Primitive].simd128 = MOVUPS  [s4(rdx)[Float32Array].var+16].simd128
+    MOVUPS        [rax + (0)], xmm0                         ;     [s80(rax).u64 < (Unknown)>].simd128 = MOVUPS  s16(xmm0)[Primitive].simd128
+    MOVUPS        [rax + (16)], xmm1                        ;     [s80(rax).u64+XX < (Unknown)>].simd128 = MOVUPS  s30(xmm1)[Primitive].simd128
+    MOV           rcx, [rax + (16)]                         ;     s81(rcx).u8     =  MOV            [s80(rax).u64+XX < (Unknown)>].u8
+    MOV           [rax + (32)], rcx                         ;     [s80(rax).u64+XX < (Unknown)>].u8 = MOV  s81(rcx).u8
+    MOV           rcx, [rax + (17)]                         ;     s82(rcx).u8     =  MOV            [s80(rax).u64+XX < (Unknown)>].u8
+    MOV           [rax + (33)], rcx                         ;     [s80(rax).u64+XX < (Unknown)>].u8 = MOV  s82(rcx).u8
+    MOV           rcx, [rax + (18)]                         ;     s83(rcx).u8     =  MOV            [s80(rax).u64+XX < (Unknown)>].u8
+    MOV           [rax + (34)], rcx                         ;     [s80(rax).u64+XX < (Unknown)>].u8 = MOV  s83(rcx).u8
+    MOV           rcx, [rax + (19)]                         ;     s84(rcx).u8     =  MOV            [s80(rax).u64+XX < (Unknown)>].u8
+    MOV           [rax + (35)], rcx                         ;     [s80(rax).u64+XX < (Unknown)>].u8 = MOV  s84(rcx).u8
+    MOV           rcx, [rax + (20)]                         ;     s85(rcx).u8     =  MOV            [s80(rax).u64+XX < (Unknown)>].u8
+    MOV           [rax + (36)], rcx                         ;     [s80(rax).u64+XX < (Unknown)>].u8 = MOV  s85(rcx).u8
+    MOV           rcx, [rax + (21)]                         ;     s86(rcx).u8     =  MOV            [s80(rax).u64+XX < (Unknown)>].u8
+    MOV           [rax + (37)], rcx                         ;     [s80(rax).u64+XX < (Unknown)>].u8 = MOV  s86(rcx).u8
+    MOV           rcx, [rax + (22)]                         ;     s87(rcx).u8     =  MOV            [s80(rax).u64+XX < (Unknown)>].u8
+    MOV           [rax + (38)], rcx                         ;     [s80(rax).u64+XX < (Unknown)>].u8 = MOV  s87(rcx).u8
+    MOV           rcx, [rax + (23)]                         ;     s88(rcx).u8     =  MOV            [s80(rax).u64+XX < (Unknown)>].u8
+    MOV           [rax + (39)], rcx                         ;     [s80(rax).u64+XX < (Unknown)>].u8 = MOV  s88(rcx).u8
+    MOV           rcx, [rax + (0)]                          ;     s89(rcx).u8     =  MOV            [s80(rax).u64 < (Unknown)>].u8
+    MOV           [rax + (40)], rcx                         ;     [s80(rax).u64+XX < (Unknown)>].u8 = MOV  s89(rcx).u8
+    MOV           rcx, [rax + (1)]                          ;     s90(rcx).u8     =  MOV            [s80(rax).u64+XX < (Unknown)>].u8
+    MOV           [rax + (41)], rcx                         ;     [s80(rax).u64+XX < (Unknown)>].u8 = MOV  s90(rcx).u8
+    MOV           rcx, [rax + (2)]                          ;     s91(rcx).u8     =  MOV            [s80(rax).u64+XX < (Unknown)>].u8
+    MOV           [rax + (42)], rcx                         ;     [s80(rax).u64+XX < (Unknown)>].u8 = MOV  s91(rcx).u8
+    MOV           rcx, [rax + (3)]                          ;     s92(rcx).u8     =  MOV            [s80(rax).u64+XX < (Unknown)>].u8
+    MOV           [rax + (43)], rcx                         ;     [s80(rax).u64+XX < (Unknown)>].u8 = MOV  s92(rcx).u8
+    MOV           rcx, [rax + (4)]                          ;     s93(rcx).u8     =  MOV            [s80(rax).u64+XX < (Unknown)>].u8
+    MOV           [rax + (44)], rcx                         ;     [s80(rax).u64+XX < (Unknown)>].u8 = MOV  s93(rcx).u8
+    MOV           rcx, [rax + (5)]                          ;     s94(rcx).u8     =  MOV            [s80(rax).u64+XX < (Unknown)>].u8
+    MOV           [rax + (45)], rcx                         ;     [s80(rax).u64+XX < (Unknown)>].u8 = MOV  s94(rcx).u8
+    MOV           rcx, [rax + (6)]                          ;     s95(rcx).u8     =  MOV            [s80(rax).u64+XX < (Unknown)>].u8
+    MOV           [rax + (46)], rcx                         ;     [s80(rax).u64+XX < (Unknown)>].u8 = MOV  s95(rcx).u8
+    MOV           rcx, [rax + (7)]                          ;     s96(rcx).u8     =  MOV            [s80(rax).u64+XX < (Unknown)>].u8
+    MOV           [rax + (47)], rcx                         ;     [s80(rax).u64+XX < (Unknown)>].u8 = MOV  s96(rcx).u8
+    MOVUPS        xmm0, [rax + (32)]                        ;     s33(xmm0)[Primitive].simd128 = MOVUPS  [s80(rax).u64+XX < (Unknown)>].simd128
+    MOVUPS        [rdx + (0)], xmm0                         ;     [s4(rdx)[Float32Array].var].simd128 = MOVUPS  s33(xmm0)[Primitive].simd128
+    MOV           rsp, rbp                                  ;     (rsp).i64       =  MOV            (rbp).i64
+    POP           rbp                                       ;     (rbp).i64       =  POP
+    RET           0                                         ;                        RET            0 (0x0).i32
+                                                            ;                        FunctionExit

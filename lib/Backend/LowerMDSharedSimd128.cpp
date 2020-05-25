@@ -522,14 +522,14 @@ IR::Instr * LowererMD::SIMD128LowerReplaceLane_2(IR::Instr *instr)
         AssertMsg(AutoSystemInfo::Data.SSE2Available(), "SSE2 not supported");
         Assert(src3->IsFloat64());
         m_lowerer->InsertMove(dst, src1, instr);
-        if (lane) 
+        if (lane)
         {
             instr->InsertBefore(IR::Instr::New(Js::OpCode::SHUFPD, dst, src3, IR::IntConstOpnd::New(0, TyInt8, m_func, true), m_func));
         }
-        else 
+        else
         {
             instr->InsertBefore(IR::Instr::New(Js::OpCode::MOVSD, dst, src3, m_func));
-        }    
+        }
         return removeInstr(instr);
     }
 
@@ -618,8 +618,8 @@ void LowererMD::EmitExtractInt64(IR::Opnd* dst, IR::Opnd* src, uint index, IR::I
             tmp = IR::RegOpnd::New(TySimd128F4, m_func);
             instr->InsertBefore(IR::Instr::New(Js::OpCode::PSHUFD, tmp, src, IR::IntConstOpnd::New(2 | 3 << 2, TyInt8, m_func, true), m_func));
         }
-        //kludg-ish; we need a new instruction for LowerReinterpretPrimitive to transform 
-        //and dummy one for a caller to remove 
+        //kludg-ish; we need a new instruction for LowerReinterpretPrimitive to transform
+        //and dummy one for a caller to remove
         IR::Instr* tmpInstr = IR::Instr::New(Js::OpCode::Simd128_ExtractLane_I2, dst, tmp->UseWithNewType(TyFloat64, m_func), m_func);
         instr->InsertBefore(tmpInstr);
         m_lowerer->LowerReinterpretPrimitive(tmpInstr);
@@ -1766,23 +1766,28 @@ IR::Instr* LowererMD::Simd128LowerShuffle(IR::Instr* instr)
         instr->InsertBefore(newInstr);
         Legalize(newInstr);
     }
-    for (uint i = 0; i < laneCount; i++)
-    {
-        //. MOV tmp, [temp1SIMD + laneValue*scale]
-        IR::RegOpnd *tmp = IR::RegOpnd::New(laneType, m_func);
-        address = (void*)(temp1SIMD + lanes[i] * scale);
-        Assert((intptr_t)address + (intptr_t)scale <= (intptr_t)dstSIMD);
-        newInstr = IR::Instr::New(Js::OpCode::MOV, tmp, IR::MemRefOpnd::New(address, laneType, m_func), m_func);
-        instr->InsertBefore(newInstr);
-        Legalize(newInstr);
 
-        //. MOV [dstSIMD + i*scale], tmp
-        address = (void*)(dstSIMD + i * scale);
-        Assert((intptr_t)address + (intptr_t) scale <= endAddrSIMD);
-        newInstr = IR::Instr::New(Js::OpCode::MOV,IR::MemRefOpnd::New(address, laneType, m_func), tmp, m_func);
-        instr->InsertBefore(newInstr);
-        Legalize(newInstr);
-    }
+    newInstr = IR::Instr::New(Js::OpCode::PSHUFB, dst, IR::MemRefOpnd::New((void*)temp1SIMD, TySimd128I16, m_func), m_func);
+    instr->InsertBefore(newInstr);
+    Legalize(newInstr);
+
+//    for (uint i = 0; i < laneCount; i++)
+//    {
+//        // MOV tmp, [temp1SIMD + laneValue*scale]
+//        IR::RegOpnd *tmp = IR::RegOpnd::New(laneType, m_func);
+//        address = (void*)(temp1SIMD + lanes[i] * scale);
+//        Assert((intptr_t)address + (intptr_t)scale <= (intptr_t)dstSIMD);
+//        newInstr = IR::Instr::New(Js::OpCode::MOV, tmp, IR::MemRefOpnd::New(address, laneType, m_func), m_func);
+//        instr->InsertBefore(newInstr);
+//        Legalize(newInstr);
+//
+//        //. MOV [dstSIMD + i*scale], tmp
+//        address = (void*)(dstSIMD + i * scale);
+//        Assert((intptr_t)address + (intptr_t) scale <= endAddrSIMD);
+//        newInstr = IR::Instr::New(Js::OpCode::MOV,IR::MemRefOpnd::New(address, laneType, m_func), tmp, m_func);
+//        instr->InsertBefore(newInstr);
+//        Legalize(newInstr);
+//    }
 
     // MOVUPS dst, [dstSIMD]
     newInstr = IR::Instr::New(Js::OpCode::MOVUPS, dst, IR::MemRefOpnd::New((void*)dstSIMD, TySimd128I16, m_func), m_func);
@@ -2244,7 +2249,7 @@ IR::Instr* LowererMD::Simd128LowerAllTrue(IR::Instr* instr)
     //TODO nikolayk revisit the sequence for in64x2.alltrue
     IR::Opnd* newDst = dst;
     uint cmpMask = 0xFFFF;
-    if (instr->m_opcode == Js::OpCode::Simd128_AllTrue_B2) 
+    if (instr->m_opcode == Js::OpCode::Simd128_AllTrue_B2)
     {
         cmpMask = 0x0F0F;
         IR::RegOpnd* reduceReg = IR::RegOpnd::New(TyInt32, m_func);
@@ -2259,7 +2264,7 @@ IR::Instr* LowererMD::Simd128LowerAllTrue(IR::Instr* instr)
         Legalize(pInstr);
         newDst = reduceReg;
     }
-    
+
     // cmp      dst, cmpMask
     pInstr = IR::Instr::New(Js::OpCode::CMP, m_func);
     pInstr->SetSrc1(newDst);
